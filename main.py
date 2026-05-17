@@ -1,3 +1,5 @@
+from collections.abc import Callable
+
 def stylize_title(document):
     return add_border(center_title(document))
 
@@ -60,3 +62,30 @@ def is_hexadecimal(hex_string: str) -> bool:
         return True
     except Exception:
         return False
+
+from collections.abc import Callable
+
+
+def file_to_prompt(
+    file: dict[str, str], to_string: Callable[[dict[str, str]], str]
+) -> str:
+    file_to_string = to_string(file)
+    wrapped = f"```\n{file_to_string}\n```"
+    return wrapped
+
+
+
+
+def file_type_getter(
+    file_extension_tuples: list[tuple[str, list[str]]],
+) -> Callable[[str], str]:
+    map : dict[str,str] = {}
+    for file_extension in file_extension_tuples: # ("document", [".doc", ".docx"])
+        type_file = file_extension[0]
+        extensions = file_extension[1]
+        for extension in extensions:
+            map[extension] = type_file
+        
+    return lambda input_file: map.get(input_file, "Unknown")
+
+    
