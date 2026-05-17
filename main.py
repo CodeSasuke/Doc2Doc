@@ -107,3 +107,10 @@ def convert_line(line: str) -> str:
     if len(line) > 0 and line[0] == old_bullet:
         return new_bullet + line[1:]
     return line
+
+from collections.abc import Iterator
+def remove_invalid_lines(document: str) -> str:
+    document_list = document.split('\n')
+    
+    filtered_copy:Iterator[str] = filter(lambda line : not line.startswith('-'),document_list )
+    return '\n'.join(filtered_copy)
