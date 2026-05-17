@@ -145,3 +145,10 @@ def pair_document_with_format(
 ) -> list[tuple[str, str]]:
     return list(filter(lambda document : document[1] in valid_formats, list(zip(doc_names,doc_formats))))
 
+def restore_documents(originals: tuple[str, ...], backups: tuple[str, ...]) -> set[str]:
+    return set(
+        filter(
+            lambda doc: not doc.isdigit(),
+            map(lambda doc: doc.upper(), originals + backups),
+        )
+    )
