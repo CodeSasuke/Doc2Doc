@@ -1,4 +1,5 @@
 from collections.abc import Callable
+import functools
 
 def stylize_title(document):
     return add_border(center_title(document))
@@ -108,9 +109,20 @@ def convert_line(line: str) -> str:
         return new_bullet + line[1:]
     return line
 
-from collections.abc import Iterator
 def remove_invalid_lines(document: str) -> str:
     document_list = document.split('\n')
     
     filtered_copy:Iterator[str] = filter(lambda line : not line.startswith('-'),document_list )
     return '\n'.join(filtered_copy)
+
+
+
+
+def join(doc_so_far: str, sentence: str) -> str:
+    return doc_so_far + ". " +  sentence
+
+def join_first_sentences(sentences: list[str], n: int) -> str:
+    if n == 0:
+        return ""
+    joined: str = functools.reduce(join,sentences[:n])
+    return f"{joined}."
